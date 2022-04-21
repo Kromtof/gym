@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { httpClient } from "../../shared/services/http-client";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const AltaPage = () => {
   const [idstate, setIdState] = useState<number>(0);
@@ -12,6 +13,8 @@ export const AltaPage = () => {
   const [genderstate, setGenderState] = useState<string>("");
   const [countrystate, setCountryState] = useState<string>("");
   const [mailstate, setMailState] = useState<string>("");
+
+  let navigate = useNavigate();
 
   return (
     <div>
@@ -35,7 +38,7 @@ export const AltaPage = () => {
               email: mailstate,
             });
             promAdd.then(() => {
-              console.log(promAdd);
+              navigate("../listasocios", { replace: true });
             });
           }}
         >
