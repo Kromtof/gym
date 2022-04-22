@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { httpClient } from "../../shared/services/http-client";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const AltaPage = () => {
   const [idstate, setIdState] = useState<number>(0);
