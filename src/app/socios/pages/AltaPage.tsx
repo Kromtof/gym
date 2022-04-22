@@ -25,7 +25,7 @@ export const AltaPage = () => {
           className="form-edit"
           onSubmit={(event: React.FormEvent): void => {
             event.preventDefault();
-            const promAdd = httpClient.post({
+            const promAdd = httpClient.post("socios", {
               id: idstate,
               imagen: imgstate,
               nombre: nombrestate,

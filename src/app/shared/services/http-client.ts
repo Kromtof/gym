@@ -11,6 +11,13 @@ export interface Socio {
   email: string;
 }
 
+export interface Ejercicio {
+  id: number;
+  imagen: any;
+  nombre: string;
+  gruposMusculares: string[];
+}
+
 let socios: Socio[] = [
   {
     id: 1,
@@ -26,31 +33,74 @@ let socios: Socio[] = [
   },
 ];
 
-const toPromise = (data: any) =>
-  new Promise((res) => {
+let ejercicios: Ejercicio[] = [
+  {
+    id: 1,
+    nombre: "Pull up",
+    gruposMusculares: ["espalda", "biceps"],
+    imagen: "",
+  },
+];
+
+function toPromise<DataType>(data: DataType) {
+  return new Promise((res) => {
     setTimeout(() => res(data), 1500);
   });
+}
+
+type Route =
+  | "socios"
+  | `socios/${number}`
+  | "ejercicios"
+  | `ejercicios/${number}`
+  | `socios/${number}/rutina;`;
+
+function post(route: "socios", socio: Socio): Promise<any>;
+function post(route: "ejercicios", ejercicio: Ejercicio): Promise<any>;
+function post(route: "socios" | "ejercicios", data: Socio | Ejercicio) {
+  const dataStore = route === "socios" ? socios : ejercicios;
+  dataStore.push(data as any);
+  console.log(dataStore);
+  return toPromise("OK");
+}
+
+function remove(route: `socios/${number}` | `ejercicios/${number}`) {
+  const dataStore = route.includes("socios") ? socios : ejercicios;
+  const id = Number(route.split("/")[1]);
+  dataStore.splice(dataStore.findIndex((x) => x.id === id));
+  console.log(socios);
+  return toPromise("OK");
+}
+
+function put(route: `socios/${number}`, socio: Socio): Promise<any>;
+function put(route: `ejercicios/${number}`, ejercicio: Ejercicio): Promise<any>;
+function put(
+  route: `socios/${number}` | `ejercicios/${number}`,
+  data: Socio | Ejercicio
+) {
+  const dataStore = route.includes("socios") ? socios : ejercicios;
+  const id = Number(route.split("/")[1]);
+  dataStore[dataStore.findIndex((x) => x.id === id)] = data;
+  console.log(dataStore);
+  return toPromise("OK");
+}
+
+function get(route: "socios"): Promise<Socio[]>;
+function get(route: `socios/${number}`): Promise<Socio>;
+function get(route: `ejercicios`): Promise<Ejercicio[]>;
+function get(route: `ejercicios/${number}`): Promise<Ejercicio>;
+function get(route: Route) {
+  const dataStore = route.includes("socios") ? socios : ejercicios;
+  const id = Number(route.split("/")[1]);
+  if (id) {
+    return toPromise((dataStore as any[]).find((x) => x.id === id)!);
+  }
+  return toPromise(dataStore);
+}
 
 export const httpClient = {
-  post: (socio: Socio) => {
-    socios.push(socio);
-    console.log(socios);
-    return toPromise("OK");
-  },
-  delete: (id: number) => {
-    socios = socios.filter((x) => x.id !== id);
-    console.log(socios);
-    return toPromise("OK");
-  },
-  put: (socio: Socio, id: number) => {
-    socios = socios.map((x) => (x.id === id ? socio : x));
-    console.log(socios);
-    return toPromise("OK");
-  },
-  get: (id?: number) => {
-    if (id) {
-      return toPromise(socios.find((x) => x.id === id));
-    }
-    return toPromise(socios);
-  },
+  post,
+  delete: remove,
+  put,
+  get,
 };
