@@ -9,7 +9,7 @@ export const SociosListPage = () => {
   const [socios, setSocios] = useState<Socio[]>([]);
 
   const LoadSocios = () => {
-    const prom: Promise<any> = httpClient.get();
+    const prom = httpClient.get("socios");
     prom.then((data) => {
       setSocios(data);
       console.log(data);
