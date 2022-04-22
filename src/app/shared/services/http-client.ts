@@ -1,6 +1,6 @@
 export interface Socio {
   id: number;
-  imagen: any;
+  imagen: string;
   nombre: string;
   apellido: string;
   dni: number;
@@ -11,6 +11,14 @@ export interface Socio {
   email: string;
 }
 
+interface SocioAlta extends Omit<Socio, "id" | "imagen"> {
+  imagen: File;
+}
+
+interface SocioModificacion extends Omit<Socio, "id" | "imagen"> {
+  imagen: File | string;
+}
+
 export interface Ejercicio {
   id: number;
   imagen: any;
@@ -18,29 +26,21 @@ export interface Ejercicio {
   gruposMusculares: string[];
 }
 
-let socios: Socio[] = [
-  {
-    id: 1,
-    imagen: "",
-    nombre: "Lucas",
-    apellido: "Blanco",
-    dni: 39268594,
-    nroSocio: 1234,
-    fechaNacimiento: "27/20/1995",
-    genero: "masculino",
-    nacionalidad: "Argentino",
-    email: "blanco.lucas.manuel@gmail.com",
-  },
-];
+interface EjercicioAlta extends Omit<Ejercicio, "id" | "imagen"> {
+  imagen: File;
+}
 
-let ejercicios: Ejercicio[] = [
-  {
-    id: 1,
-    nombre: "Pull up",
-    gruposMusculares: ["espalda", "biceps"],
-    imagen: "",
-  },
-];
+interface EjercicioModificacion extends Omit<Ejercicio, "id" | "imagen"> {
+  imagen: File | string;
+}
+
+const dbRaw = localStorage.getItem("db");
+
+const updateDB = () =>
+  localStorage.setItem("db", JSON.stringify({ socios, ejercicios }));
+let socios: Socio[] = dbRaw ? JSON.parse(dbRaw).socios : [];
+
+let ejercicios: Ejercicio[] = dbRaw ? JSON.parse(dbRaw).ejercicios : [];
 
 function toPromise<DataType>(data: DataType) {
   return new Promise((res) => {
@@ -55,12 +55,20 @@ type Route =
   | `ejercicios/${number}`
   | `socios/${number}/rutina;`;
 
-function post(route: "socios", socio: Socio): Promise<any>;
-function post(route: "ejercicios", ejercicio: Ejercicio): Promise<any>;
-function post(route: "socios" | "ejercicios", data: Socio | Ejercicio) {
+function post(route: "socios", socio: SocioAlta): Promise<any>;
+function post(route: "ejercicios", ejercicio: EjercicioAlta): Promise<any>;
+function post(route: "socios" | "ejercicios", data: SocioAlta | EjercicioAlta) {
   const dataStore = route === "socios" ? socios : ejercicios;
-  dataStore.push(data as any);
+  dataStore.push({
+    ...data,
+    imagen:
+      data.imagen instanceof File
+        ? URL.createObjectURL(data.imagen)
+        : data.imagen,
+    id: Math.random(),
+  } as any);
   console.log(dataStore);
+  updateDB();
   return toPromise("OK");
 }
 
@@ -71,20 +79,32 @@ function remove(route: `socios/${number}` | `ejercicios/${number}`) {
     dataStore.findIndex((x) => x.id === id),
     1
   );
-  console.log(socios);
+  localStorage.console.log(socios);
+  updateDB();
   return toPromise("OK");
 }
 
-function put(route: `socios/${number}`, socio: Socio): Promise<any>;
-function put(route: `ejercicios/${number}`, ejercicio: Ejercicio): Promise<any>;
+function put(route: `socios/${number}`, socio: SocioModificacion): Promise<any>;
+function put(
+  route: `ejercicios/${number}`,
+  ejercicio: EjercicioModificacion
+): Promise<any>;
 function put(
   route: `socios/${number}` | `ejercicios/${number}`,
-  data: Socio | Ejercicio
+  data: SocioModificacion | EjercicioModificacion
 ) {
   const dataStore = route.includes("socios") ? socios : ejercicios;
   const id = Number(route.split("/")[1]);
-  dataStore[dataStore.findIndex((x) => x.id === id)] = data;
+  dataStore[dataStore.findIndex((x) => x.id === id)] = {
+    ...data,
+    imagen:
+      data.imagen instanceof File
+        ? URL.createObjectURL(data.imagen)
+        : data.imagen,
+    id: Math.random(),
+  };
   console.log(dataStore);
+  updateDB();
   return toPromise("OK");
 }
 

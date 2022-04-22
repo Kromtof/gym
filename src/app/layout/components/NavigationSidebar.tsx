@@ -4,7 +4,7 @@ import "./NavigationSidebar.css";
 
 export const NavigationSidebar = () => {
   return (
-    <body>
+    <div>
       <div className="sidebar">
         <Link to="/">Home</Link>
 
@@ -12,6 +12,6 @@ export const NavigationSidebar = () => {
 
         <Link to="/listasocios">Socios</Link>
       </div>
-    </body>
+    </div>
   );
 };
