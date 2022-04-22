@@ -67,7 +67,10 @@ function post(route: "socios" | "ejercicios", data: Socio | Ejercicio) {
 function remove(route: `socios/${number}` | `ejercicios/${number}`) {
   const dataStore = route.includes("socios") ? socios : ejercicios;
   const id = Number(route.split("/")[1]);
-  dataStore.splice(dataStore.findIndex((x) => x.id === id));
+  dataStore.splice(
+    dataStore.findIndex((x) => x.id === id),
+    1
+  );
   console.log(socios);
   return toPromise("OK");
 }
