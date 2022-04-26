@@ -149,3 +149,9 @@ input[type="radio"]:after {
 #O:hover {
   transform: scale(2.1);
 }
+
+input [type="checkbox"] {
+  vertical-align: top;
+  cursor: pointer;
+  text-align: left;
+}
