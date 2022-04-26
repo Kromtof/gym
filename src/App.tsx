@@ -7,6 +7,8 @@ import { AltaPage } from "./app/socios/pages/AltaPage";
 import { SociosListPage } from "./app/socios/pages/SociosListPage";
 import { NavigationSidebar } from "./app/layout/components/NavigationSidebar";
 import { ModificarSocioPage } from "./app/socios/pages/ModificarSocioPage";
+import { AltaEjercicioPage } from "./app/ejercicios/pages/AltaEjercicioPage";
+import { ListaEjerciciosPage } from "./app/ejercicios/pages/ListaEjerciciosPage";
 
 function App() {
   useEffect(() => {
@@ -27,6 +29,8 @@ function App() {
         <Route path="altasocios" element={<AltaPage />} />
         <Route path="listasocios" element={<SociosListPage />} />
         <Route path="/modificarsocio/:id" element={<ModificarSocioPage />} />
+        <Route path="altaejercicio" element={<AltaEjercicioPage />} />
+        <Route path="listaejercicios" element={<ListaEjerciciosPage />} />
       </Routes>
     </>
   );

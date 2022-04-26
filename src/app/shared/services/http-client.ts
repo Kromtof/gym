@@ -79,7 +79,7 @@ function remove(route: `socios/${number}` | `ejercicios/${number}`) {
     dataStore.findIndex((x) => x.id === id),
     1
   );
-  localStorage.console.log(socios);
+  console.log(socios);
   updateDB();
   return toPromise("OK");
 }

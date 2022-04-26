@@ -1,28 +1,29 @@
-import { httpClient } from "../../shared/services/http-client";
-import { useState } from "react";
-import { Socio } from "../../shared/services/http-client";
-import { useEffect } from "react";
-import "./SociosListPage.css";
+import { useState, useEffect } from "react";
+import { Ejercicio, httpClient } from "../../shared/services/http-client";
 import { useNavigate } from "react-router-dom";
 
-export const SociosListPage = () => {
-  const LoadSocios = () => {
+export const ListaEjerciciosPage = () => {
+  const LoadEjercicios = () => {
     setIsLoading(true);
-    const prom = httpClient.get("socios");
+    const prom = httpClient.get("ejercicios");
     prom.then((data) => {
       setIsLoading(false);
-      setSocios(data);
+      setEjercicios(data);
     });
   };
 
   const [isLoading, setIsLoading] = useState(false);
-  const [socios, setSocios] = useState<Socio[]>([]);
+  const [ejercicios, setEjercicios] = useState<Ejercicio[]>([]);
 
   useEffect(() => {
-    LoadSocios();
+    LoadEjercicios();
   }, []);
 
   let navigate = useNavigate();
+
+  function emprolijararray(arraydegruposmusculares: string[]) {
+    return arraydegruposmusculares.join(", ");
+  }
 
   return (
     <div>
@@ -32,18 +33,15 @@ export const SociosListPage = () => {
           <tr>
             <th>IMAGEN</th>
             <th>NOMBRE</th>
-            <th>DNI</th>
-            <th>N° SOCIO</th>
-            <th>FECHA NACIMIENTO</th>
-            <th>EMAIL</th>
+            <th>GRUPOS MUSCULARES</th>
           </tr>
         </thead>
         <tbody>
-          {socios.map((socio) => (
-            <tr key={socio.id}>
+          {ejercicios.map((ejercicio) => (
+            <tr key={ejercicio.id}>
               <td>
                 <img
-                  src={socio.imagen}
+                  src={ejercicio.imagen}
                   style={{
                     width: 50,
                     height: 50,
@@ -54,20 +52,17 @@ export const SociosListPage = () => {
                   }}
                 />
               </td>
-              <td>
-                {socio.nombre} {socio.apellido}
-              </td>
-              <td>{socio.dni}</td>
-              <td>{socio.nroSocio}</td>
-              <td>{socio.fechaNacimiento}</td>
-              <td>{socio.email}</td>
+              <td>{ejercicio.nombre}</td>
+              <td>{emprolijararray(ejercicio.gruposMusculares)}</td>
               <td>
                 <button
                   onClick={() => {
-                    console.log(socio.id);
-                    const promDelete = httpClient.delete(`socios/${socio.id}`);
+                    console.log(ejercicio.id);
+                    const promDelete = httpClient.delete(
+                      `ejercicios/${ejercicio.id}`
+                    );
                     promDelete.then(() => {
-                      LoadSocios();
+                      LoadEjercicios();
                     });
                   }}
                 >
@@ -75,7 +70,7 @@ export const SociosListPage = () => {
                 </button>
                 <button
                   onClick={() => {
-                    navigate("/modificarsocio/" + socio.id);
+                    navigate("/modificarejercicio/" + ejercicio.id);
                   }}
                 >
                   Modificar
