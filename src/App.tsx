@@ -9,6 +9,7 @@ import { NavigationSidebar } from "./app/layout/components/NavigationSidebar";
 import { ModificarSocioPage } from "./app/socios/pages/ModificarSocioPage";
 import { AltaEjercicioPage } from "./app/ejercicios/pages/AltaEjercicioPage";
 import { ListaEjerciciosPage } from "./app/ejercicios/pages/ListaEjerciciosPage";
+import { CreateRutinaPage } from "./app/rutinas/pages/CreateRutinaPage";
 
 function App() {
   useEffect(() => {
@@ -31,6 +32,7 @@ function App() {
         <Route path="/modificarsocio/:id" element={<ModificarSocioPage />} />
         <Route path="altaejercicio" element={<AltaEjercicioPage />} />
         <Route path="listaejercicios" element={<ListaEjerciciosPage />} />
+        <Route path="crearrutina" element={<CreateRutinaPage />} />
       </Routes>
     </>
   );

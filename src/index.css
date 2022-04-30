@@ -65,7 +65,7 @@ code {
 input:focus,
 input:hover {
   outline: none;
-  border-color: #40a9f3;
+  border-color: rgb(168, 119, 235);
 }
 button {
   min-width: 68px;
@@ -74,9 +74,12 @@ button {
   font-weight: 700;
   text-align: center;
   border-radius: 4px;
-  border: 1px solid #bababa;
+  border: 1px solid rgb(168, 119, 235);
   background: #fff;
   cursor: pointer;
+}
+button:hover {
+  background: rgb(168, 119, 235);
 }
 .user-form button:first-child {
   color: #fff;
@@ -147,11 +150,23 @@ input[type="radio"]:after {
 #M:hover,
 #F:hover,
 #O:hover {
-  transform: scale(2.1);
+  accent-color: rgb(168, 119, 235);
+  transform: scale(1.5);
+  border: 1px solid rgb(168, 119, 235);
+}
+
+#M:checked,
+#F:checked,
+#O:checked {
+  accent-color: rgb(168, 119, 235);
 }
 
 input [type="checkbox"] {
   vertical-align: top;
   cursor: pointer;
   text-align: left;
+}
+
+.submit:hover {
+  accent-color: rgb(168, 119, 235);
 }

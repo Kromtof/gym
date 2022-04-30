@@ -16,6 +16,8 @@ export const NavigationSidebar = () => {
         <Link to="/altaejercicio">Cargar Ejercicio</Link>
 
         <Link to="/listaejercicios">Listado Ejercicios</Link>
+        <h3 id="titulo">Rutinas</h3>
+        <Link to="/crearrutina">Crear Rutina</Link>
       </div>
     </div>
   );
