@@ -93,10 +93,12 @@ export const ModificarSocioPage = () => {
               <label>imagen</label>
               <input
                 type="file"
+                placeholder="ingrese su imagen"
                 name="imagen"
-                onChange={(ev: React.ChangeEvent<HTMLInputElement>): void =>
-                  setImgState(ev.target.value)
-                }
+                onChange={(ev) => {
+                  console.log(ev);
+                  setImgState(ev.target.files![0]);
+                }}
               />
             </div>
           )}

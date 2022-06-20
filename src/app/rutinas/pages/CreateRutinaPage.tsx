@@ -68,7 +68,7 @@ export const CreateRutinaPage = (props: Props) => {
             disabled={serie.estaconfirmado}
             style={{ width: 90 }}
             placeholder="Cant rep"
-            // value={series[index].cantRep}
+            value={series[index].cantRep}
             onChange={(ev) => {
               let nuevasSeries = series;
               nuevasSeries[index]!.cantRep = Number(ev.target.value);
@@ -80,7 +80,7 @@ export const CreateRutinaPage = (props: Props) => {
             style={{ width: 90 }}
             placeholder="Cant ciclos"
             type="number"
-            //value={serie.cantCiclos}
+            value={serie.cantCiclos}
             onChange={(ev) => {
               let nuevasSeries = series;
               nuevasSeries[index]!.cantCiclos = Number(ev.target.value);

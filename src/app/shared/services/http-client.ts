@@ -101,7 +101,7 @@ function put(
       data.imagen instanceof File
         ? URL.createObjectURL(data.imagen)
         : data.imagen,
-    id: Math.random(),
+    id: Math.floor(Math.random() * (1000 - 1)) + 1,
   };
   console.log(dataStore);
   updateDB();
